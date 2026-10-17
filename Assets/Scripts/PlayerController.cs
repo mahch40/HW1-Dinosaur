@@ -28,10 +28,12 @@ public class PlayerController : MonoBehaviour
 
     public bool IsGrounded => isGrounded;
     public bool IsDashing => isDashing;
+    public PlayerHealth Health { get; private set; }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        Health = GetComponent<PlayerHealth>();
         input = new GameInput();
         homeX = transform.position.x;
     }
