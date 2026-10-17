@@ -21,5 +21,6 @@ public class GameManager : MonoBehaviour
     {
         Score += amount;
         OnScoreChanged?.Invoke(Score);
+        Debug.Log($"Score: {Score}");
     }
 }
