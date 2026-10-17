@@ -466,6 +466,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  dashSpeed: 11
+  dashDuration: 0.25
+  dashCooldown: 1
+  returnSpeed: 6
 --- !u!1 &407823974
 GameObject:
   m_ObjectHideFlags: 0
