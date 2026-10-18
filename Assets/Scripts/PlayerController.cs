@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float returnSpeed = 6f;
 
     private Rigidbody2D rb;
+    private Animator anim;
     private GameInput input;
 
     private bool isGrounded;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         Health = GetComponent<PlayerHealth>();
         input = new GameInput();
         homeX = transform.position.x;
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        anim.SetBool("isGrounded", isGrounded);
 
         if (cooldownTimer > 0f)
             cooldownTimer -= Time.fixedDeltaTime;

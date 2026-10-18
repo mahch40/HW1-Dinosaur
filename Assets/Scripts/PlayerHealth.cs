@@ -21,11 +21,13 @@ public class PlayerHealth : MonoBehaviour
 
     private SpriteRenderer sr;
     private Rigidbody2D rb;
+    private Animator anim;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         CurrentLives = maxLives;
     }
 
@@ -49,6 +51,9 @@ public class PlayerHealth : MonoBehaviour
             Die();
             return;
         }
+
+        anim.SetTrigger("Hit");
+        StartCoroutine(HitFeedback());
 
         StartCoroutine(HitFeedback());
     }
@@ -74,6 +79,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        anim.SetBool("isDead", true);
         IsDead = true;
         sr.color = Color.white;
         GameSpeed.Current = 0f;            // the world stops scrolling
