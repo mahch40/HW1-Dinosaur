@@ -521,8 +521,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   startSpeed: 6
-  maxSpeed: 14
-  acceleration: 0.15
+  maxSpeed: 18
+  acceleration: 0.2
   distanceScoreRate: 1.5
 --- !u!4 &367168581
 Transform:

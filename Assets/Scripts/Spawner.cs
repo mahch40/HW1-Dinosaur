@@ -35,6 +35,9 @@ public class Spawner : MonoBehaviour
         if (timer > 0f) return;
 
         SpawnRandom();
+        // Faster world, shorter wait, so the distance between obstacles stays similar.
+        float speedFactor = Mathf.Max(6f / GameSpeed.Current, 0.7f);
+        timer = Random.Range(minInterval, maxInterval) * speedFactor;
         timer = Random.Range(minInterval, maxInterval);
     }
 
