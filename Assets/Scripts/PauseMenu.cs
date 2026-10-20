@@ -43,6 +43,8 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         panel.SetActive(true);
         Time.timeScale = 0f;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SetPaused(true);
     }
 
     public void Resume()
@@ -50,5 +52,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         panel.SetActive(false);
         Time.timeScale = 1f;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SetPaused(false);
     }
 }

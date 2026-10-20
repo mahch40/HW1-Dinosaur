@@ -87,6 +87,8 @@ public class PlayerController : MonoBehaviour
         if (Time.timeScale == 0f) return;
         if (!isGrounded) return;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayJump();
     }
 
     private void OnDash(InputAction.CallbackContext ctx)
@@ -97,5 +99,7 @@ public class PlayerController : MonoBehaviour
         isDashing = true;
         dashTimer = dashDuration;
         cooldownTimer = dashCooldown;
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayDash();
     }
 }

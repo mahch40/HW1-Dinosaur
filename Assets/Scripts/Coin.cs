@@ -7,6 +7,8 @@ public class Coin : Interactable
     protected override void OnPlayerContact(PlayerController player)
     {
         GameManager.Instance.AddScore(points);
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayCoin();
         Destroy(gameObject);
     }
 }
