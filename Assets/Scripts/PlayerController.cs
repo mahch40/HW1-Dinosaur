@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         anim.SetBool("isGrounded", isGrounded);
+        anim.SetFloat("RunSpeed", 1f + (GameSpeed.Current - 6f) * 0.08f);
 
         if (cooldownTimer > 0f)
             cooldownTimer -= Time.fixedDeltaTime;
