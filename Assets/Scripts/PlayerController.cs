@@ -83,12 +83,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext ctx)
     {
+        if (Time.timeScale == 0f) return;
         if (!isGrounded) return;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
     }
 
     private void OnDash(InputAction.CallbackContext ctx)
     {
+        if (Time.timeScale == 0f) return;
         if (isDashing || cooldownTimer > 0f) return;
 
         isDashing = true;
