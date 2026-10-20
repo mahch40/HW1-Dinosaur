@@ -54,8 +54,6 @@ public class PlayerHealth : MonoBehaviour
 
         anim.SetTrigger("Hit");
         StartCoroutine(HitFeedback());
-
-        StartCoroutine(HitFeedback());
     }
 
     private IEnumerator HitFeedback()
