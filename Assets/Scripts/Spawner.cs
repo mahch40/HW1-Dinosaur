@@ -14,6 +14,7 @@ public class Spawner : MonoBehaviour
     [Header("Position")]
     [SerializeField] private float spawnX = 9f;
     [SerializeField] private float[] coinHeights = { -2.2f, -0.8f };
+    [SerializeField] private float[] airHeights = { -0.5f, -2.5f };
 
     [Header("Chances (relative weights)")]
     [SerializeField] private float groundWeight = 55f;
@@ -38,7 +39,6 @@ public class Spawner : MonoBehaviour
         // Faster world, shorter wait, so the distance between obstacles stays similar.
         float speedFactor = Mathf.Max(6f / GameSpeed.Current, 0.7f);
         timer = Random.Range(minInterval, maxInterval) * speedFactor;
-        timer = Random.Range(minInterval, maxInterval);
     }
 
     private void SpawnRandom()
@@ -48,7 +48,12 @@ public class Spawner : MonoBehaviour
         if (roll < groundWeight)
             Spawn(RandomOf(groundObstacles), null);
         else if (roll < groundWeight + airWeight)
-            Spawn(RandomOf(airObstacles), null);
+        {
+            float? y = (airHeights != null && airHeights.Length > 0)
+                ? airHeights[Random.Range(0, airHeights.Length)]
+                : null;
+            Spawn(RandomOf(airObstacles), y);
+        }
         else
             Spawn(coin, coinHeights[Random.Range(0, coinHeights.Length)]);
     }

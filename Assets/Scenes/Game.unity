@@ -3177,6 +3177,9 @@ MonoBehaviour:
   coinHeights:
   - -2.2
   - -0.8
+  airHeights:
+  - -0.5
+  - -2.5
   groundWeight: 55
   airWeight: 20
   coinWeight: 25
