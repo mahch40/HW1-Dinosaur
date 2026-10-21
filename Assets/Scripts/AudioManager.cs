@@ -29,9 +29,21 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f)] [SerializeField] private float sfxVolume = 1f;
     [Range(0f, 1f)] [SerializeField] private float pauseMusicVolumeMultiplier = 0.3f;
 
+    private const string MutedPrefKey = "Muted";
+    private bool isMuted;
     private bool isPaused;
     private GameManager currentGameManager;
     private PlayerHealth currentPlayerHealth;
+
+    /// <summary>
+    /// Whether audio (both music and sound effects) is currently muted.
+    /// </summary>
+    public bool IsMuted => isMuted;
+
+    /// <summary>
+    /// Event invoked whenever the mute state changes.
+    /// </summary>
+    public event System.Action<bool> OnMuteChanged;
 
     private void Awake()
     {
@@ -45,7 +57,11 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        // Load persisted mute state before any sound can play
+        isMuted = PlayerPrefs.GetInt(MutedPrefKey, 0) == 1;
+
         EnsureAudioSources();
+        ApplyMute();
     }
 
     private void OnEnable()
@@ -96,16 +112,16 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        musicSource.volume = musicVolume;
         sfxSource.volume = sfxVolume;
+        UpdateMusicVolume();
+        ApplyMute();
     }
 
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Reset pause volume whenever any scene loads or reloads
         isPaused = false;
-        if (musicSource != null)
-            musicSource.volume = musicVolume;
+        UpdateMusicVolume();
 
         UnsubscribeFromGameEvents();
 
@@ -152,6 +168,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void UpdateMusicVolume()
+    {
+        if (musicSource != null)
+        {
+            musicSource.volume = isPaused ? musicVolume * pauseMusicVolumeMultiplier : musicVolume;
+        }
+    }
+
     public void PlayMusic(AudioClip clip, bool restartIfSame = false)
     {
         if (musicSource == null) return;
@@ -171,7 +195,8 @@ public class AudioManager : MonoBehaviour
         musicSource.clip = clip;
         musicSource.loop = true;
         musicSource.time = 0f;
-        musicSource.volume = isPaused ? musicVolume * pauseMusicVolumeMultiplier : musicVolume;
+        UpdateMusicVolume();
+        musicSource.mute = isMuted;
         musicSource.Play();
     }
 
@@ -186,15 +211,46 @@ public class AudioManager : MonoBehaviour
     public void SetPaused(bool paused)
     {
         isPaused = paused;
+        UpdateMusicVolume();
+    }
+
+    /// <summary>
+    /// Sets whether audio is muted, persisting the preference in PlayerPrefs.
+    /// </summary>
+    public void SetMuted(bool muted)
+    {
+        isMuted = muted;
+        PlayerPrefs.SetInt(MutedPrefKey, isMuted ? 1 : 0);
+        PlayerPrefs.Save();
+
+        ApplyMute();
+        OnMuteChanged?.Invoke(isMuted);
+    }
+
+    /// <summary>
+    /// Toggles the current mute state.
+    /// </summary>
+    public void ToggleMute()
+    {
+        SetMuted(!isMuted);
+    }
+
+    private void ApplyMute()
+    {
         if (musicSource != null)
         {
-            musicSource.volume = isPaused ? musicVolume * pauseMusicVolumeMultiplier : musicVolume;
+            musicSource.mute = isMuted;
+        }
+
+        if (sfxSource != null)
+        {
+            sfxSource.mute = isMuted;
         }
     }
 
     public void PlaySfx(AudioClip clip)
     {
-        if (clip == null || sfxSource == null) return;
+        if (isMuted || clip == null || sfxSource == null) return;
         sfxSource.PlayOneShot(clip, sfxVolume);
     }
 
