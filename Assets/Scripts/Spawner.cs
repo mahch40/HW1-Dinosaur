@@ -21,10 +21,15 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float airWeight = 20f;
     [SerializeField] private float coinWeight = 25f;
 
+    [SerializeField] private GameObject shieldPickup;
+    [SerializeField] private float shieldWeight = 6f;
+    private PlayerHealth playerHealth;
+
     private float timer;
 
     private void Start()
     {
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
         timer = 1.5f;   // short grace period at the start
     }
 
@@ -43,19 +48,20 @@ public class Spawner : MonoBehaviour
 
     private void SpawnRandom()
     {
-        float roll = Random.value * (groundWeight + airWeight + coinWeight);
+        // No shield pickups while one is already active.
+        float shieldChance = (shieldPickup != null && playerHealth != null && !playerHealth.HasShield)
+            ? shieldWeight : 0f;
+
+        float roll = Random.value * (groundWeight + airWeight + coinWeight + shieldChance);
 
         if (roll < groundWeight)
             Spawn(RandomOf(groundObstacles), null);
         else if (roll < groundWeight + airWeight)
-        {
-            float? y = (airHeights != null && airHeights.Length > 0)
-                ? airHeights[Random.Range(0, airHeights.Length)]
-                : null;
-            Spawn(RandomOf(airObstacles), y);
-        }
-        else
+            Spawn(RandomOf(airObstacles), null);
+        else if (roll < groundWeight + airWeight + coinWeight)
             Spawn(coin, coinHeights[Random.Range(0, coinHeights.Length)]);
+        else
+            Spawn(shieldPickup, coinHeights[Random.Range(0, coinHeights.Length)]);
     }
 
     private GameObject RandomOf(GameObject[] list)

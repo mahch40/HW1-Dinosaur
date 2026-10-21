@@ -13,6 +13,12 @@ public class PlayerHealth : MonoBehaviour
     public int MaxLives => maxLives;
     public bool IsDead { get; private set; }
     public bool IsInvincible { get; private set; }
+    public bool HasShield { get; private set; }
+    public float ShieldRemaining { get; private set; }
+    public float ShieldDuration { get; private set; }
+    public event Action<bool> OnShieldChanged;
+
+    private Coroutine shieldRoutine;
 
     // Other systems (UI, animation, game manager) subscribe to these.
     public event Action<int> OnLivesChanged;   // passes the new number of lives
@@ -40,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int amount = 1)
     {
         if (IsDead || IsInvincible) return;
-
+        if (HasShield) return;   // the shield absorbs every hit while it lasts
         CurrentLives = Mathf.Max(0, CurrentLives - amount);
         Debug.Log($"Lives: {CurrentLives}");
         OnLivesChanged?.Invoke(CurrentLives);
@@ -92,5 +98,33 @@ public class PlayerHealth : MonoBehaviour
 
     // Temporary test helper: use the component's "⋮" menu while playing.
     [ContextMenu("Test Damage")]
+    
     private void TestDamage() => TakeDamage();
+
+        public void ActivateShield(float duration)
+    {
+        if (IsDead) return;
+
+        ShieldDuration = duration;
+        if (shieldRoutine != null) StopCoroutine(shieldRoutine);
+        shieldRoutine = StartCoroutine(ShieldRoutine(duration));
+    }
+
+    private IEnumerator ShieldRoutine(float duration)
+    {
+        HasShield = true;
+        ShieldRemaining = duration;
+        OnShieldChanged?.Invoke(true);
+
+        while (ShieldRemaining > 0f)
+        {
+            ShieldRemaining -= Time.deltaTime;   // stops while the game is paused
+            yield return null;
+        }
+
+        ShieldRemaining = 0f;
+        HasShield = false;
+        shieldRoutine = null;
+        OnShieldChanged?.Invoke(false);
+    }
 }
