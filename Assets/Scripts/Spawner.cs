@@ -23,6 +23,8 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private GameObject shieldPickup;
     [SerializeField] private float shieldWeight = 6f;
+    [SerializeField] private GameObject heartPickup;
+    [SerializeField] private float heartWeight = 5f;
     private PlayerHealth playerHealth;
 
     private float timer;
@@ -48,20 +50,41 @@ public class Spawner : MonoBehaviour
 
     private void SpawnRandom()
     {
-        // No shield pickups while one is already active.
         float shieldChance = (shieldPickup != null && playerHealth != null && !playerHealth.HasShield)
             ? shieldWeight : 0f;
+        float heartChance = (heartPickup != null && playerHealth != null
+                             && playerHealth.CurrentLives < playerHealth.MaxLives)
+            ? heartWeight : 0f;
 
-        float roll = Random.value * (groundWeight + airWeight + coinWeight + shieldChance);
+        float total = groundWeight + airWeight + coinWeight + shieldChance + heartChance;
+        float roll = Random.value * total;
+        float y = coinHeights[Random.Range(0, coinHeights.Length)];
 
         if (roll < groundWeight)
+        {
             Spawn(RandomOf(groundObstacles), null);
-        else if (roll < groundWeight + airWeight)
+            return;
+        }
+        roll -= groundWeight;
+
+        if (roll < airWeight)
+        {
             Spawn(RandomOf(airObstacles), null);
-        else if (roll < groundWeight + airWeight + coinWeight)
-            Spawn(coin, coinHeights[Random.Range(0, coinHeights.Length)]);
+            return;
+        }
+        roll -= airWeight;
+
+        if (roll < coinWeight)
+        {
+            Spawn(coin, y);
+            return;
+        }
+        roll -= coinWeight;
+
+        if (roll < shieldChance)
+            Spawn(shieldPickup, y);
         else
-            Spawn(shieldPickup, coinHeights[Random.Range(0, coinHeights.Length)]);
+            Spawn(heartPickup, y);
     }
 
     private GameObject RandomOf(GameObject[] list)

@@ -98,7 +98,7 @@ public class PlayerHealth : MonoBehaviour
 
     // Temporary test helper: use the component's "⋮" menu while playing.
     [ContextMenu("Test Damage")]
-    
+
     private void TestDamage() => TakeDamage();
 
         public void ActivateShield(float duration)
@@ -126,5 +126,13 @@ public class PlayerHealth : MonoBehaviour
         HasShield = false;
         shieldRoutine = null;
         OnShieldChanged?.Invoke(false);
+    }
+
+    public void Heal(int amount = 1)
+    {
+        if (IsDead) return;
+
+        CurrentLives = Mathf.Min(maxLives, CurrentLives + amount);
+        OnLivesChanged?.Invoke(CurrentLives);   // the health bar updates by itself
     }
 }

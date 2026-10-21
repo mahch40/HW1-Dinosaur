@@ -3201,6 +3201,8 @@ MonoBehaviour:
   coinWeight: 25
   shieldPickup: {fileID: 5743716250975394844, guid: 407ee7e18cdbfd87cb68959cb7b5339e, type: 3}
   shieldWeight: 4
+  heartPickup: {fileID: 6643845093813159381, guid: 4ccf901c3af4cd3c094e4c17c9f7e844, type: 3}
+  heartWeight: 12
 --- !u!4 &1494039986
 Transform:
   m_ObjectHideFlags: 0
