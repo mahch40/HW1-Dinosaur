@@ -115,3 +115,6 @@ InitTestScene*.unity*
 
 # vscode files
 .vscode/
+
+# bulid
+Builds/
