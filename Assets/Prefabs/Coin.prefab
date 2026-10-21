@@ -144,3 +144,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   destroyX: -12
   points: 10
+  floatingTextPrefab: {fileID: 754329001928374650, guid: c560ae5f98444c30a10c2b1a0973309c, type: 3}
+  textSpawnOffset: {x: 0, y: 0.4, z: 0}
