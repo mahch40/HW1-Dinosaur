@@ -555,6 +555,7 @@ GameObject:
   - component: {fileID: 372587361}
   - component: {fileID: 372587362}
   - component: {fileID: 372587363}
+  - component: {fileID: 372587364}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -786,6 +787,46 @@ MonoBehaviour:
   shieldColor: {r: 0.25, g: 0.6, b: 1, a: 1}
   warningTime: 1.5
   blinkInterval: 0.12
+--- !u!114 &372587364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372587355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84507a6a1e6425591ad65d0e6a836a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DustEffects
+  playerController: {fileID: 372587360}
+  playerHealth: {fileID: 372587361}
+  runDustSystem: {fileID: 0}
+  landDustSystem: {fileID: 0}
+  jumpDustSystem: {fileID: 0}
+  dustMaterial: {fileID: 2100000, guid: 92a9d47c274546bfb0f1355e7746ecf9, type: 2}
+  dustColor: {r: 0.48, g: 0.48, b: 0.48, a: 1}
+  sortingOrder: 9
+  feetOffset: {x: 0, y: 0.05, z: 0}
+  minRunSpeed: 6
+  maxRunSpeed: 14
+  minRunEmissionRate: 6
+  maxRunEmissionRate: 16
+  runParticleLifetime: 0.35
+  minRunParticleSize: 0.09
+  maxRunParticleSize: 0.14
+  runRiseSpeed: 0.35
+  landingParticleCount: 8
+  landingParticleLifetime: 0.4
+  minLandingParticleSize: 0.1
+  maxLandingParticleSize: 0.15
+  landingSpreadSpeed: 2
+  landingRiseSpeed: 0.5
+  jumpParticleCount: 4
+  jumpParticleLifetime: 0.35
+  minJumpParticleSize: 0.08
+  maxJumpParticleSize: 0.13
+  jumpRiseSpeed: 0.35
 --- !u!1 &407823974
 GameObject:
   m_ObjectHideFlags: 0
