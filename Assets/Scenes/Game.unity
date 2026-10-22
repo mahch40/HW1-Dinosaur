@@ -827,6 +827,7 @@ MonoBehaviour:
   minJumpParticleSize: 0.08
   maxJumpParticleSize: 0.13
   jumpRiseSpeed: 0.35
+  landSound: {fileID: 8300000, guid: fb3ab72c9de646c4958225fd34b96541, type: 3}
 --- !u!1 &407823974
 GameObject:
   m_ObjectHideFlags: 0
@@ -5288,6 +5289,7 @@ MonoBehaviour:
   gameOverSound: {fileID: 8300000, guid: 35e6703c53434df99079fa81ab515936, type: 3}
   jumpSound: {fileID: 8300000, guid: 81f27262d347470580b33434a8e63c69, type: 3}
   dashSound: {fileID: 8300000, guid: 786322b17249410f9a74c1d353d680b1, type: 3}
+  landSound: {fileID: 8300000, guid: fb3ab72c9de646c4958225fd34b96541, type: 3}
   musicVolume: 1
   sfxVolume: 1
   pauseMusicVolumeMultiplier: 0.3

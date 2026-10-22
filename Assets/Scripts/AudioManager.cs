@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     [Header("Optional Action Clips")]
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioClip dashSound;
+    [SerializeField] private AudioClip landSound;
 #pragma warning restore 0649
 
     [Header("Volume Settings")]
@@ -277,6 +278,11 @@ public class AudioManager : MonoBehaviour
     public void PlayDash()
     {
         PlaySfx(dashSound);
+    }
+
+    public void PlayLand()
+    {
+        PlaySfx(landSound);
     }
 
     private void HandlePlayerHit()

@@ -61,6 +61,10 @@ public class DustEffects : MonoBehaviour
     [SerializeField] private float maxJumpParticleSize = 0.13f;
     [SerializeField] private float jumpRiseSpeed = 0.35f;
 
+    [Header("Audio Settings")]
+    [Tooltip("Sound played when landing and emitting dust puff.")]
+    [SerializeField] private AudioClip landSound;
+
     private bool wasGrounded;
     private bool isInitialized;
     private ParticleSystem.EmitParams emitParams;
@@ -149,6 +153,17 @@ public class DustEffects : MonoBehaviour
 
     private void TriggerLandingPuff()
     {
+        // Play landing dust sound
+        if (landSound != null)
+        {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySfx(landSound);
+        }
+        else if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayLand();
+        }
+
         if (landDustSystem == null) return;
 
         Vector3 origin = transform.position + feetOffset;
