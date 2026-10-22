@@ -51,8 +51,30 @@
                 },
                 {
                     "name": "",
+                    "id": "a7380685-ccdb-4d13-af46-f29b6dc0a9bc",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "28749dff-6710-4675-b479-b41a896598b1",
                     "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cae8643-2deb-4b33-b646-51eaabbb899d",
+                    "path": "<Touchscreen>/touch1/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

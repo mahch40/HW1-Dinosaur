@@ -115,13 +115,11 @@ public class DayNightCycle : MonoBehaviour
     {
         t = Mathf.Repeat(t, 1f);
 
-        // 1. Camera background color
         if (targetCamera != null && backgroundGradient != null)
         {
             targetCamera.backgroundColor = backgroundGradient.Evaluate(t);
         }
 
-        // 2. Global Light 2D color and intensity
         if (globalLight != null)
         {
             if (lightColorGradient != null)
@@ -131,7 +129,6 @@ public class DayNightCycle : MonoBehaviour
                 globalLight.intensity = lightIntensityCurve.Evaluate(t);
         }
 
-        // 3. HUD text color adaptation
         if (hudTexts != null && hudTextColorGradient != null)
         {
             Color textColor = hudTextColorGradient.Evaluate(t);
@@ -142,7 +139,6 @@ public class DayNightCycle : MonoBehaviour
             }
         }
 
-        // 4. Health bar colors adaptation
         if (healthBarUI != null && healthBarFullGradient != null && healthBarEmptyGradient != null)
         {
             healthBarUI.SetColors(healthBarFullGradient.Evaluate(t), healthBarEmptyGradient.Evaluate(t));
