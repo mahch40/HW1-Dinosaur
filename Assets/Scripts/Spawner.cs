@@ -69,7 +69,10 @@ public class Spawner : MonoBehaviour
 
         if (roll < airWeight)
         {
-            Spawn(RandomOf(airObstacles), null);
+            float? airY = (airHeights != null && airHeights.Length > 0)
+                ? airHeights[Random.Range(0, airHeights.Length)]
+                : null;
+            Spawn(RandomOf(airObstacles), airY);
             return;
         }
         roll -= airWeight;
